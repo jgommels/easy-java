@@ -1,5 +1,7 @@
 # easy-java
 
+*Author: Jared Gommels*
+
 This is a very small project I've worked on in my free time that so far provides basic support for the following:
 - Easily read and write CSV files in a single line of code by converting to/from POJOs
 - Convert between different case formats
