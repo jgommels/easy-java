@@ -55,7 +55,7 @@ This library provides a CaseFormat class that is similar to what can be found in
 
 
 ## Bean Validation
-(JSR-303 provides a framework for performing bean validation using annotations, but it doesn't provide a simple utility class out of the
+JSR-303 provides a framework for performing bean validation using annotations, but it doesn't provide a simple utility class out of the
 box to invoke the validation of the beans and throw a ValidationException. This can be done with the ValidationUtils class.
 
 **Note:** For this functionality, the module depends on hibernate-validator and javax.el-api
