@@ -3,9 +3,6 @@ package com.jgommels.easyjava.csv;
 import java.time.Instant;
 import java.time.LocalDate;
 
-/**
- *
- */
 public class ItemOrder {
     private Instant purchaseTimestamp;
     private LocalDate purchaseDate;
