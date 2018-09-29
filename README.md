@@ -5,7 +5,7 @@
 This is a very small project I've worked on in my free time that so far provides basic support for the following:
 - Easily read and write CSV files in a single line of code by converting to/from POJOs
 - Convert between different case formats
-- Utility class to perform bean validation
+- Other miscellaneous utility classes
 
 **Warning: This code is not production ready! Use at your own risk.**
 
@@ -52,11 +52,3 @@ If we wanted the header to appear with a different case, then we would do someth
 
 ## The CaseFormat enum
 This library provides a CaseFormat class that is similar to what can be found in Guava, however it provides more options and functionality.
-
-
-## Bean Validation
-JSR-303 provides a framework for performing bean validation using annotations, but it doesn't provide a simple utility class out of the
-box to invoke the validation of the beans and throw a ValidationException. This can be done with the ValidationUtils class.
-
-**Note:** For this functionality, the module depends on hibernate-validator and javax.el-api
-
