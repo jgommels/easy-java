@@ -3,9 +3,12 @@ package com.jgommels.easyjava.csv;
 import com.jgommels.easyjava.bean.BeanUtilsBeanFactory;
 import com.jgommels.easyjava.file.FileWriteMode;
 import com.jgommels.easyjava.strings.CaseFormat;
+import org.apache.commons.beanutils.Converter;
 
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -32,7 +35,30 @@ public class EasyCsv implements EasyCsvReader, EasyCsvWriter {
     }
 
     @Override
+    public void setDefaultLocalDateTimeFormat(DateTimeFormatter format) {
+        this.reader.setDefaultLocalDateTimeFormat(format);
+    }
+
+    @Override
+    public void registerConverter(Converter converter, Class<?> clazz) {
+        this.reader.registerConverter(converter, clazz);
+    }
+
+    @Override
     public <T> void write(Path file, Class<T> clazz, List<T> records, CaseFormat headerFormat, FileWriteMode writeMode) {
         this.writer.write(file, clazz, records, headerFormat, writeMode);
+    }
+
+    @Override
+    public void setDecimalFormat(DecimalFormat decimalFormat) {
+        this.writer.setDecimalFormat(decimalFormat);
+    }
+
+    public EasyCsvReader getReader() {
+        return reader;
+    }
+
+    public EasyCsvWriter getWriter() {
+        return writer;
     }
 }

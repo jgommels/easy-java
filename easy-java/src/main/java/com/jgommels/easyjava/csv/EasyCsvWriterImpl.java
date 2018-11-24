@@ -8,14 +8,18 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EasyCsvWriterImpl implements EasyCsvWriter {
+
+    private DecimalFormat decimalFormat = null;
 
     @Override
     public <T> void write(Path file, Class<T> clazz, List<T> records, CaseFormat headerFormat, FileWriteMode writeMode) {
@@ -35,6 +39,11 @@ public class EasyCsvWriterImpl implements EasyCsvWriter {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    @Override
+    public void setDecimalFormat(DecimalFormat decimalFormat) {
+        this.decimalFormat = decimalFormat;
     }
 
     private BufferedWriter buildBufferedWriter(Path file, FileWriteMode writeMode) {
@@ -83,10 +92,23 @@ public class EasyCsvWriterImpl implements EasyCsvWriter {
         try {
             Field field = fields[index];
             field.setAccessible(true);
-            Object value = field.get(record);
-            return value != null ? value.toString() : "";
+            return valueToString(field.get(record));
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String valueToString(Object object) {
+        if(object == null) {
+            return "";
+        }
+
+        if(this.decimalFormat != null) {
+            Class<?> clazz = object.getClass();
+            if(Double.class.equals(clazz) || BigDecimal.class.equals(clazz) || Float.class.equals(clazz))
+            return this.decimalFormat.format(object);
+        }
+
+        return object.toString();
     }
 }

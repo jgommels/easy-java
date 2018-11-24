@@ -6,6 +6,7 @@ import com.jgommels.easyjava.strings.CaseFormat;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public interface EasyCsvWriter {
@@ -40,6 +41,8 @@ public interface EasyCsvWriter {
     }
 
     <T> void write(Path file, Class<T> clazz, List<T> records, CaseFormat headerFormat, FileWriteMode writeMode);
+
+    void setDecimalFormat(DecimalFormat decimalFormat);
 
     private CaseFormat getDefaultHeaderFormat() {
         return CaseFormat.LOWER_UNDERSCORE;

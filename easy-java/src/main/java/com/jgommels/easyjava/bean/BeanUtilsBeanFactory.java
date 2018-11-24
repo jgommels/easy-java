@@ -18,12 +18,27 @@ public class BeanUtilsBeanFactory {
      * Constructs and returns a {@link BeanUtilsBean} with default registered converters.
      */
     public static BeanUtilsBean getBeanUtilsBean() {
-        ConvertUtilsBean convertUtilsBean = new ConvertUtilsBean();
+        ConvertUtilsBean convertUtilsBean = buildConvertUtilsBean();
         convertUtilsBean.register(new InstantConverter(), Instant.class);
         convertUtilsBean.register(new LocalDateConverter(), LocalDate.class);
         convertUtilsBean.register(new LocalDateTimeConverter(), LocalDateTime.class);
-        convertUtilsBean.register(new BigDecimalConverter(), BigDecimal.class) ;
+        convertUtilsBean.register(new BigDecimalConverter(), BigDecimal.class);
 
         return new BeanUtilsBean(convertUtilsBean);
+    }
+
+    private static ConvertUtilsBean buildConvertUtilsBean() {
+
+        //BeanUtils does not support enums, so we override to add this functionality
+        return new ConvertUtilsBean() {
+            @Override
+            public Object convert(String value, Class clazz) {
+                if (clazz.isEnum()) {
+                    return Enum.valueOf(clazz, value);
+                } else {
+                    return super.convert(value, clazz);
+                }
+            }
+        };
     }
 }

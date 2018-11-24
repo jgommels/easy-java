@@ -44,7 +44,8 @@ public class RelaxedFieldMatcher {
             return mapping;
         }
 
-        throw new IllegalArgumentException(String.format("Could not find mapping for field [%s]", sourceName));
+        //TODO Consider adding option to throw exception instead when no mapping is found
+        return null;
     }
 
     private Field lookupFieldAndCacheMapping(String sourceName) {

@@ -7,6 +7,7 @@ public class ItemOrder {
     private Instant purchaseTimestamp;
     private LocalDate purchaseDate;
     private int customerId;
+    private PurchaseType type;
     private long itemNumber;
     private String name;
     private int quantity;
@@ -34,6 +35,14 @@ public class ItemOrder {
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
+    }
+
+    public PurchaseType getType() {
+        return type;
+    }
+
+    public void setType(PurchaseType type) {
+        this.type = type;
     }
 
     public long getItemNumber() {

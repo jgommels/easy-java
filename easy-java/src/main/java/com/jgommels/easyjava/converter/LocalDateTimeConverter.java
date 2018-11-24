@@ -4,8 +4,19 @@ import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.converters.AbstractConverter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class LocalDateTimeConverter extends AbstractConverter {
+
+    private final DateTimeFormatter formatter;
+
+    public LocalDateTimeConverter() {
+        this.formatter = null;
+    }
+
+    public LocalDateTimeConverter(DateTimeFormatter formatter) {
+        this.formatter = formatter;
+    }
 
     @Override
     protected <T> T convertToType(Class<T> type, Object value) throws Throwable {
@@ -13,7 +24,15 @@ public class LocalDateTimeConverter extends AbstractConverter {
             throw new ConversionException("Source object is of type " + value.getClass() + ",  and not a String.");
         }
 
-        return type.cast(LocalDateTime.parse((String)value));
+        LocalDateTime dateTime;
+        if(formatter != null) {
+            dateTime = LocalDateTime.parse((String) value, formatter);
+        }
+        else {
+            dateTime = LocalDateTime.parse((String) value);
+        }
+
+        return type.cast(dateTime);
     }
 
     @Override

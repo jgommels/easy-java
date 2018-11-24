@@ -30,6 +30,7 @@ class EasyCsvTest extends Specification{
         Assert.assertEquals(Instant.parse("2016-06-12T10:00:00Z"), order1.getPurchaseTimestamp())
         Assert.assertEquals(LocalDate.parse("2016-06-12"), order1.getPurchaseDate())
         Assert.assertEquals(1, order1.getCustomerId())
+        Assert.assertEquals(PurchaseType.ONLINE, order1.getType())
         Assert.assertEquals(239201000001L, order1.getItemNumber())
         Assert.assertEquals("30 inch LED TV",order1.getName())
         Assert.assertEquals(1, order1.getQuantity())
@@ -39,6 +40,7 @@ class EasyCsvTest extends Specification{
         Assert.assertEquals(Instant.parse("2016-06-13T12:00:00Z"), order2.getPurchaseTimestamp())
         Assert.assertEquals(LocalDate.parse("2016-06-13"), order2.getPurchaseDate())
         Assert.assertEquals(1, order2.getCustomerId())
+        Assert.assertEquals(PurchaseType.IN_STORE, order2.getType())
         Assert.assertEquals(239201000002L, order2.getItemNumber())
         Assert.assertEquals("6' HDMI Cable",order2.getName())
         Assert.assertEquals(2, order2.getQuantity())
@@ -72,6 +74,7 @@ class EasyCsvTest extends Specification{
 
         ItemOrder order1 = new ItemOrder()
         order1.setItemNumber(239201000001L)
+        order1.setType(PurchaseType.ONLINE)
         order1.setName("30 inch LED TV")
         order1.setCustomerId(2)
         order1.setPurchaseDate(LocalDate.parse("2016-06-12"))
@@ -81,6 +84,7 @@ class EasyCsvTest extends Specification{
 
         ItemOrder order2 = new ItemOrder()
         order2.setItemNumber(239201000002L)
+        order2.setType(PurchaseType.IN_STORE)
         order2.setCustomerId(2)
         order2.setName("6' HDMI Cable")
         order2.setPurchaseDate(LocalDate.parse("2016-06-13"))
@@ -97,9 +101,9 @@ class EasyCsvTest extends Specification{
         EasyCsv easyCsv = new EasyCsv()
         easyCsv.write(file, ItemOrder.class, orders, CaseFormat.LOWER_UNDERSCORE)
 
-        String expectedLine1 = "purchase_timestamp,purchase_date,customer_id,item_number,name,quantity,price_per_unit"
-        String expectedLine2 = "2016-06-12T10:00:00Z,2016-06-12,2,239201000001,30 inch LED TV,1,329.72"
-        String expectedLine3 = "2016-06-13T12:00:00Z,2016-06-13,2,239201000002,6' HDMI Cable,2,5.99"
+        String expectedLine1 = "purchase_timestamp,purchase_date,customer_id,type,item_number,name,quantity,price_per_unit"
+        String expectedLine2 = "2016-06-12T10:00:00Z,2016-06-12,2,ONLINE,239201000001,30 inch LED TV,1,329.72"
+        String expectedLine3 = "2016-06-13T12:00:00Z,2016-06-13,2,IN_STORE,239201000002,6' HDMI Cable,2,5.99"
 
         when:
             List<String> lines = Files.readAllLines(file)
@@ -117,6 +121,7 @@ class EasyCsvTest extends Specification{
 
         ItemOrder order1 = new ItemOrder()
         order1.setItemNumber(239201000001L)
+        order1.setType(PurchaseType.ONLINE)
         order1.setName("30 inch LED TV")
         order1.setCustomerId(2)
         order1.setPurchaseDate(LocalDate.parse("2016-06-12"))
@@ -126,6 +131,7 @@ class EasyCsvTest extends Specification{
 
         ItemOrder order2 = new ItemOrder()
         order2.setItemNumber(239201000002L)
+        order2.setType(PurchaseType.IN_STORE)
         order2.setCustomerId(2)
         order2.setName("6' HDMI Cable")
         order2.setPurchaseDate(LocalDate.parse("2016-06-13"))
@@ -140,9 +146,9 @@ class EasyCsvTest extends Specification{
         easyCsv.write(file, ItemOrder.class, [order1], FileWriteMode.APPEND)
         easyCsv.write(file, ItemOrder.class, [order2], FileWriteMode.APPEND)
 
-        String expectedLine1 = "purchase_timestamp,purchase_date,customer_id,item_number,name,quantity,price_per_unit"
-        String expectedLine2 = "2016-06-12T10:00:00Z,2016-06-12,2,239201000001,30 inch LED TV,1,329.72"
-        String expectedLine3 = "2016-06-13T12:00:00Z,2016-06-13,2,239201000002,6' HDMI Cable,2,5.99"
+        String expectedLine1 = "purchase_timestamp,purchase_date,customer_id,type,item_number,name,quantity,price_per_unit"
+        String expectedLine2 = "2016-06-12T10:00:00Z,2016-06-12,2,ONLINE,239201000001,30 inch LED TV,1,329.72"
+        String expectedLine3 = "2016-06-13T12:00:00Z,2016-06-13,2,IN_STORE,239201000002,6' HDMI Cable,2,5.99"
 
         when:
         List<String> lines = Files.readAllLines(file)

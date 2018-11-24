@@ -1,9 +1,11 @@
 package com.jgommels.easyjava.csv;
 
+import com.jgommels.easyjava.converter.LocalDateTimeConverter;
 import com.jgommels.easyjava.csv.exception.CsvParseException;
 import com.jgommels.easyjava.reflect.ReflectionUtils;
 import com.jgommels.easyjava.reflect.RelaxedFieldMatcher;
 import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.Converter;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 
 import java.io.*;
@@ -12,6 +14,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -70,6 +74,16 @@ public class EasyCsvReaderImpl implements EasyCsvReader{
         return rows;
     }
 
+    @Override
+    public void setDefaultLocalDateTimeFormat(DateTimeFormatter format) {
+        this.beanUtils.getConvertUtils().register(new LocalDateTimeConverter(format), LocalDateTime.class);
+    }
+
+    @Override
+    public void registerConverter(Converter converter, Class<?> clazz) {
+        this.beanUtils.getConvertUtils().register(converter, clazz);
+    }
+
     private <T> List<T> doRead(BufferedReader reader, Class<T> clazz) throws IOException {
         String[] header = getRow(reader.readLine());
         RelaxedFieldMatcher mapping = RelaxedFieldMatcher.build(clazz.getDeclaredFields());
@@ -89,7 +103,9 @@ public class EasyCsvReaderImpl implements EasyCsvReader{
             T instance = ReflectionUtils.getInstance(clazz);
             for (int i = 0; i < values.length; i++) {
                 Field f = fieldMatcher.getMatchingField(header[i]);
-                beanUtils.setProperty(instance, f.getName(), values[i]);
+                if(f != null) {
+                    beanUtils.setProperty(instance, f.getName(), values[i]);
+                }
             }
 
             return instance;

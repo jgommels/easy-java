@@ -1,10 +1,13 @@
 package com.jgommels.easyjava.csv;
 
+import org.apache.commons.beanutils.Converter;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public interface EasyCsvReader {
@@ -36,4 +39,8 @@ public interface EasyCsvReader {
     <T> List<T> read(InputStream is, Class<T> clazz);
 
     <T> List<T> tail(Path file, Class<T> clazz, int numLines);
+
+    void setDefaultLocalDateTimeFormat(DateTimeFormatter format);
+
+    void registerConverter(Converter converter, Class<?> clazz);
 }
