@@ -104,12 +104,27 @@ public class EasyCsvReaderImpl implements EasyCsvReader{
             for (int i = 0; i < values.length; i++) {
                 Field f = fieldMatcher.getMatchingField(header[i]);
                 if(f != null) {
-                    beanUtils.setProperty(instance, f.getName(), values[i]);
+                    String fieldName = f.getName();
+                    String value = values[i];
+
+                    if(value != null && !value.isBlank()) {
+                        try {
+                            beanUtils.setProperty(instance, fieldName, value);
+                        }
+                        catch(Exception e) {
+                            throw new CsvParseException(String.format("Error occurred while attempting to set field [%s] " +
+                                    "with value [%s]", fieldName, value), e);
+                        }
+                    }
                 }
             }
 
             return instance;
-        } catch (IllegalAccessException | InvocationTargetException e){
+        } catch (Exception e){
+            if(e instanceof CsvParseException) {
+                throw e;
+            }
+
             throw new CsvParseException("Could not build object of type " + clazz.getName(), e);
         }
     }
