@@ -1,13 +1,9 @@
 package com.jgommels.easyjava.converter;
 
-import org.apache.commons.beanutils.ConversionException;
-import org.apache.commons.beanutils.converters.AbstractConverter;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class LocalDateTimeConverter extends AbstractConverter {
-
+public class LocalDateTimeConverter extends StringToObjectConverter {
     private final DateTimeFormatter formatter;
 
     public LocalDateTimeConverter() {
@@ -19,24 +15,15 @@ public class LocalDateTimeConverter extends AbstractConverter {
     }
 
     @Override
-    protected <T> T convertToType(Class<T> type, Object value) throws Throwable {
-        if(! (value instanceof String)) {
-            throw new ConversionException("Source object is of type " + value.getClass() + ",  and not a String.");
-        }
-
-        LocalDateTime dateTime;
-        if(formatter != null) {
-            dateTime = LocalDateTime.parse((String) value, formatter);
-        }
-        else {
-            dateTime = LocalDateTime.parse((String) value);
-        }
-
-        return type.cast(dateTime);
+    protected <T> T convertString(Class<T> type, String value) {
+        return type.cast(parse(value));
     }
 
-    @Override
-    protected Class<?> getDefaultType() {
-        return String.class;
+    private LocalDateTime parse(String value) {
+        if (formatter != null) {
+            return LocalDateTime.parse(value, this.formatter);
+        }
+
+        return LocalDateTime.parse(value);
     }
 }

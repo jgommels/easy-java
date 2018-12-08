@@ -12,10 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * Convenience class for reading and writing CSV files.
+ * Convenience class that can be used for both reading and writing CSV files.
  */
 public class EasyCsv implements EasyCsvReader, EasyCsvWriter {
-
     private final EasyCsvReaderImpl reader;
     private final EasyCsvWriter writer;
 
@@ -35,13 +34,13 @@ public class EasyCsv implements EasyCsvReader, EasyCsvWriter {
     }
 
     @Override
-    public void setDefaultLocalDateTimeFormat(DateTimeFormatter format) {
-        this.reader.setDefaultLocalDateTimeFormat(format);
+    public void registerConverter(Converter converter, Class<?> clazz) {
+        this.reader.registerConverter(converter, clazz);
     }
 
     @Override
-    public void registerConverter(Converter converter, Class<?> clazz) {
-        this.reader.registerConverter(converter, clazz);
+    public void registerLocalDateTimeConverterFormat(DateTimeFormatter format) {
+        this.reader.registerLocalDateTimeConverterFormat(format);
     }
 
     @Override

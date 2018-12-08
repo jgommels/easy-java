@@ -10,7 +10,6 @@ import org.apache.commons.io.input.ReversedLinesFileReader;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -75,13 +74,13 @@ public class EasyCsvReaderImpl implements EasyCsvReader{
     }
 
     @Override
-    public void setDefaultLocalDateTimeFormat(DateTimeFormatter format) {
-        this.beanUtils.getConvertUtils().register(new LocalDateTimeConverter(format), LocalDateTime.class);
+    public void registerConverter(Converter converter, Class<?> clazz) {
+        this.beanUtils.getConvertUtils().register(converter, clazz);
     }
 
     @Override
-    public void registerConverter(Converter converter, Class<?> clazz) {
-        this.beanUtils.getConvertUtils().register(converter, clazz);
+    public void registerLocalDateTimeConverterFormat(DateTimeFormatter format) {
+        registerConverter(new LocalDateTimeConverter(format), LocalDateTime.class);
     }
 
     private <T> List<T> doRead(BufferedReader reader, Class<T> clazz) throws IOException {
@@ -129,7 +128,7 @@ public class EasyCsvReaderImpl implements EasyCsvReader{
         }
     }
 
-    private static String[] getRow(String str) {
+    private String[] getRow(String str) {
         String[] header = str.split(",");
         for(int i=0; i<header.length; i++) {
             header[i] = header[i].trim();
