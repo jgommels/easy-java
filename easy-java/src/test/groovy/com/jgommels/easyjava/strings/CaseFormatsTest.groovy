@@ -2,9 +2,6 @@ package com.jgommels.easyjava.strings
 
 import spock.lang.Specification
 
-/**
- *
- */
 class CaseFormatsTest extends Specification {
     def "getCaseFormat"(String source, CaseFormat caseFormat) {
         expect:
@@ -92,7 +89,6 @@ class CaseFormatsTest extends Specification {
         "my_test_string" | CaseFormat.UPPER_PERIOD     | "MY.TEST.STRING"
         "my_test_string" | CaseFormat.UPPER_UNDERSCORE | "MY_TEST_STRING"
 
-        //Mixed Cases
         "my-teST-sTRINg" | CaseFormat.LOWER_CAMEL      | "myTestString"
         "my-teST-sTRINg" | CaseFormat.LOWER_HYPHEN     | "my-test-string"
         "my-teST-sTRINg" | CaseFormat.LOWER_PERIOD     | "my.test.string"
