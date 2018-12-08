@@ -133,10 +133,4 @@ public enum CaseFormat {
 
         throw new IllegalArgumentException("No supported CaseFormat for: " + str);
     }
-
-
-
-    private static boolean isNullOrEmpty(String str) {
-        return str == null || str.isEmpty();
-    }
 }
