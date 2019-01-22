@@ -1,36 +1,18 @@
 package com.jgommels.easyjava.range;
 
-public class Range<T extends Comparable<? super T>> {
-    private final T start;
-    private final T end;
+/**
+ * A range between two objects that implement {@link Comparable}.
+ */
+public interface Range<T extends Comparable<? super T>> extends Comparable<Range<T>> {
+    T getStart();
+    T getEnd() ;
 
-    private Range(T start, T end) {
-        this.start = start;
-        this.end = end;
+    default boolean includes(T value) {
+        return getStart().compareTo(value) <= 0 && getEnd().compareTo(value) >= 0;
     }
-
-    public static <T extends Comparable<? super T>> Range<T> of(T start, T end) {
-        return new Range<>(start, end);
-    }
-
-    public T getStart() {
-        return start;
-    }
-
-    public T getEnd() {
-        return end;
-    }
-
-    public boolean includes(T value) {
-        return this.start.compareTo(value) <= 0 && this.end.compareTo(value) >= 0;
-    }
-
 
     @Override
-    public String toString() {
-        return "Range{" +
-                "start=" + start +
-                ", end=" + end +
-                '}';
+    default int compareTo(Range<T> other) {
+        return getStart().compareTo(other.getStart());
     }
 }
