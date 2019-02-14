@@ -7,14 +7,20 @@ import java.util.regex.Pattern;
 
 /**
  * Provides static utility methods for getting the {@link CaseFormat} for strings and converting between different
- * {@link CaseFormat}s.
+ * case formats.
  */
 public class CaseFormats {
 
+    /**
+     * Returns the determined case format for the given string.
+     */
     public static CaseFormat getCaseFormat(String str) {
         return CaseFormat.getCaseFormat(str);
     }
 
+    /**
+     * Returns a new string formatted using the provided {@link CaseFormat} from the given string input.
+     */
     public static String convertCase(String str, CaseFormat caseFormat) {
         return convertCaseFormat(str, getCaseFormat(str), caseFormat);
     }

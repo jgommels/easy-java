@@ -12,10 +12,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * Convenience class that can be used for both reading and writing CSV files.
+ *  Convenience class that can be used for both reading and writing CSV files.
+ *  Wraps {@link EasyCsvReader} and {@link EasyCsvWriter} instances.
  */
 public class EasyCsv implements EasyCsvReader, EasyCsvWriter {
-    private final EasyCsvReaderImpl reader;
+    private final EasyCsvReader reader;
     private final EasyCsvWriter writer;
 
     public EasyCsv() {

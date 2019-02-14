@@ -62,6 +62,10 @@ If we wanted the header to be formatted with a particular case, then we would do
 
     easyCsv.write(file, ItemOrder.class, orders, CaseFormat.LOWER_PERIOD)
     
+Rows can also be appended to an existing file by supplying a `FileWriteMode.APPEND` parameter:
+
+    easyCsv.write(file, ItemOrder.class, orders, FileWriteMode.APPEND)
+    
 **Warning:** Again, this requires that all the objects be loaded into memory prior to writing them to the file. This practice is not recommended for a large list of objects.
 
 ## The CaseFormat enum

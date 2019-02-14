@@ -12,6 +12,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Factory class for constructing {@link BeanUtilsBean} instances.
+ */
 public class BeanUtilsBeanFactory {
 
     /**
